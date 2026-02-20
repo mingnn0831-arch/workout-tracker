@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minimal Workout Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>트레이닝</h1>
+        
+        <div id="workout-list">
+            <!-- Workout cards will be injected here -->
+        </div>
+
+        <div class="add-workout-panel">
+            <div class="input-group">
+                <input type="text" id="workout-name-input" placeholder="운동 이름 (예: 팔굽혀펴기)" autocomplete="off">
+            </div>
+            <div class="stepper-row">
+                <span style="font-weight: 600; color: var(--text-secondary);">세트 수</span>
+                <div class="stepper">
+                    <button class="stepper-btn" id="minus-btn" aria-label="Decrease">
+                        <i data-lucide="minus"></i>
+                    </button>
+                    <div class="stepper-value" id="sets-value">5</div>
+                    <button class="stepper-btn" id="plus-btn" aria-label="Increase">
+                        <i data-lucide="plus"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="add-btn" id="add-workout-btn">운동 추가</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
