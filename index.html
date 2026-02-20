@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Workout">
-    <meta name="theme-color" content="#000000">        
-    
+    <meta name="theme-color" content="#000000">
+
     <title>Minimal Workout Tracker</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Google Fonts -->
@@ -18,15 +18,27 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <div id="app">
-        <h1>트레이닝</h1>
-        
+        <header class="main-header">
+            <h1>트레이닝</h1>
+            <button id="toggle-add-btn" class="header-action-btn" aria-label="Add Workout">
+                <i data-lucide="plus"></i>
+            </button>
+        </header>
+
         <div id="workout-list">
             <!-- Workout cards will be injected here -->
         </div>
 
-        <div class="add-workout-panel">
+        <div class="add-workout-panel" id="add-panel" style="display: none;">
+            <div class="panel-header">
+                <h2>새 운동 추가</h2>
+                <button id="close-panel-btn" class="close-btn" aria-label="Close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
             <div class="input-group">
                 <input type="text" id="workout-name-input" placeholder="운동 이름 (예: 팔굽혀펴기)" autocomplete="off">
             </div>
@@ -44,10 +56,19 @@
             </div>
             <button class="add-btn" id="add-workout-btn">운동 추가</button>
         </div>
+
+        <div id="global-completion-overlay" class="overlay" style="display: none;">
+            <div class="overlay-content">
+                <div class="completion-icon">🏆</div>
+                <h2>오늘의 운동 완료!</h2>
+                <p>정말 멋진 하루입니다. 내일도 화이팅!</p>
+                <button id="reset-all-btn" class="add-btn" style="margin-top: 20px;">새로운 하루 시작하기</button>
+                <button id="close-overlay-btn" class="secondary-btn" style="margin-top: 10px; width: 100%;">닫기</button>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
 </body>
+
 </html>
-
-
