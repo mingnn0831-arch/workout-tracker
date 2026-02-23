@@ -23,15 +23,21 @@
     <div id="app">
         <header class="main-header">
             <h1>트레이닝</h1>
-            <button id="toggle-add-btn" class="header-action-btn" aria-label="Add Workout">
-                <i data-lucide="plus"></i>
-            </button>
+            <div class="header-actions">
+                <button id="global-reset-btn" class="header-action-btn" aria-label="Reset All">
+                    <i data-lucide="refresh-cw"></i>
+                </button>
+                <button id="theme-toggle" class="header-action-btn" aria-label="Toggle Theme">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
         </header>
 
         <div id="workout-list">
             <!-- Workout cards will be injected here -->
         </div>
 
+        <div id="panel-overlay" class="panel-overlay"></div>
         <div class="add-workout-panel" id="add-panel" style="display: none;">
             <div class="panel-header">
                 <h2>새 운동 추가</h2>
@@ -41,6 +47,9 @@
             </div>
             <div class="input-group">
                 <input type="text" id="workout-name-input" placeholder="운동 이름 (예: 팔굽혀펴기)" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="text" id="workout-reps-input" placeholder="횟수 (예: 20 또는 도달 시까지)" autocomplete="off">
             </div>
             <div class="stepper-row">
                 <span style="font-weight: 600; color: var(--text-secondary);">세트 수</span>
@@ -54,6 +63,18 @@
                     </button>
                 </div>
             </div>
+            <div class="color-picker-row">
+                <span style="font-weight: 600; color: var(--text-secondary);">색상</span>
+                <div class="color-options" id="color-options">
+                    <div class="color-dot" data-color="#ff4d4d" style="background-color: #ff4d4d;"></div>
+                    <div class="color-dot" data-color="#ff944d" style="background-color: #ff944d;"></div>
+                    <div class="color-dot" data-color="#ffdb4d" style="background-color: #ffdb4d;"></div>
+                    <div class="color-dot active" data-color="#2ecc71" style="background-color: #2ecc71;"></div>
+                    <div class="color-dot" data-color="#3498db" style="background-color: #3498db;"></div>
+                    <div class="color-dot" data-color="#9b59b6" style="background-color: #9b59b6;"></div>
+                    <div class="color-dot" data-color="#e84393" style="background-color: #e84393;"></div>
+                </div>
+            </div>
             <button class="add-btn" id="add-workout-btn">운동 추가</button>
         </div>
 
@@ -64,6 +85,19 @@
                 <p>정말 멋진 하루입니다. 내일도 화이팅!</p>
                 <button id="reset-all-btn" class="add-btn" style="margin-top: 20px;">새로운 하루 시작하기</button>
                 <button id="close-overlay-btn" class="secondary-btn" style="margin-top: 10px; width: 100%;">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reset-confirm-modal" class="overlay" style="display: none;">
+        <div class="overlay-content" style="background: #1c1c1e;">
+            <h2 style="font-size: 1.4rem; color: #ffffff; margin-bottom: 15px;">모든 운동을 초기화하시겠습니까?</h2>
+            <p style="color: #8e8e93;">오늘의 모든 운동 기록이 0으로 돌아갑니다.</p>
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <button id="cancel-reset-btn" class="secondary-btn"
+                    style="flex: 1; background: #2c2c2e; border: none; color: #ffffff;">취소</button>
+                <button id="confirm-reset-btn" class="add-btn"
+                    style="flex: 1; background: var(--success-color); color: white;">초기화</button>
             </div>
         </div>
     </div>

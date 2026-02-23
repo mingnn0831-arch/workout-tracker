@@ -1,13 +1,31 @@
 :root {
-    --bg-color: #0c0c0c;
-    --card-bg: rgba(30, 30, 30, 0.6);
+    --bg-color: #000000;
+    --card-bg: rgba(28, 28, 30, 0.7);
     --text-primary: #ffffff;
-    --text-secondary: #999999;
-    --accent-color: #ffffff;
-    --danger-color: #ff4d4d;
-    --success-color: #00ff88;
+    --text-secondary: #8e8e93;
+    --accent-color: #2ecc71;
+    /* Default Green */
+    --success-color: #2ecc71;
+    --danger-color: #ff453a;
     --glass-border: rgba(255, 255, 255, 0.1);
+    --panel-bg: #141414;
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body.light-theme {
+    --bg-color: #f2f2f7;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text-primary: #000000;
+    --text-secondary: #8e8e93;
+    --accent-color: #2ecc71;
+    --success-color: #2ecc71;
+    --danger-color: #ff3b30;
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --panel-bg: #ffffff;
+}
+
+body.light-theme .color-dot.active {
+    border-color: #000;
 }
 
 * {
@@ -16,6 +34,8 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
+
+/* CSS for text-based reps input is already covered by #workout-reps-input sharing styles with #workout-name-input */
 
 body {
     background-color: var(--bg-color);
@@ -49,6 +69,12 @@ h1 {
     letter-spacing: -0.02em;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .header-action-btn {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
@@ -63,6 +89,56 @@ h1 {
     backdrop-filter: blur(10px);
 }
 
+.workout-card-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+.delete-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 100%;
+    background-color: var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 24px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.workout-card-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 24px;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.workout-card-wrapper.dragging {
+    z-index: 100 !important;
+    opacity: 0.95;
+    transition: none !important;
+    /* No transition while following mouse */
+}
+
+.workout-card-wrapper.dragging .workout-card {
+    background: rgba(80, 80, 80, 0.95);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+    cursor: grabbing;
+}
+
 .workout-card {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
@@ -70,15 +146,21 @@ h1 {
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     padding: 24px;
-    margin-bottom: 20px;
     position: relative;
-    transition: transform 0.2s ease, border-color 0.3s ease, background-color 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.3s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
+    z-index: 2;
+    overflow: hidden;
+    /* Keep delete background clipped inside card context if needed, but wrapper handles it */
 }
 
-.workout-card:active {
+/* Ensure the wrapper itself doesn't clip the scaled card */
+.workout-card-wrapper:not(.dragging) {
+    overflow: hidden;
+}
+
+.workout-card-wrapper:active .workout-card {
     background: rgba(40, 40, 40, 0.8);
-    transform: scale(0.98);
 }
 
 .workout-card.completed {
@@ -90,6 +172,41 @@ h1 {
     transform: none;
 }
 
+/* Ghost Card for Adding Workout */
+.add-card-wrapper {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.add-card {
+    background: rgba(128, 128, 128, 0.05);
+    border: 2px dashed var(--glass-border);
+    border-radius: 24px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.add-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.add-card:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.add-card i {
+    width: 28px;
+    height: 28px;
+}
+
 .workout-header {
     display: flex;
     justify-content: space-between;
@@ -97,9 +214,19 @@ h1 {
     margin-bottom: 20px;
 }
 
+.workout-info {
+    flex: 1;
+}
+
 .workout-name {
     font-size: 1.25rem;
     font-weight: 600;
+}
+
+.workout-reps {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
 }
 
 .header-actions {
@@ -192,13 +319,32 @@ h1 {
     transform: translate(-50%, 100%);
     width: 100%;
     max-width: 480px;
-    background: #141414;
+    background: var(--panel-bg);
     border-top: 1px solid var(--glass-border);
     border-radius: 28px 28px 0 0;
     padding: 30px 20px 40px;
     z-index: 1000;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.15);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+.panel-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .add-workout-panel.show {
@@ -228,7 +374,8 @@ h1 {
     margin-bottom: 16px;
 }
 
-#workout-name-input {
+#workout-name-input,
+#workout-reps-input {
     width: 100%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
@@ -268,21 +415,49 @@ h1 {
 }
 
 .stepper-value {
-    width: 40px;
-    text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
+    min-width: 30px;
+    text-align: center;
+}
+
+.color-picker-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-dot.active {
+    border-color: #fff;
+    transform: scale(1.2);
 }
 
 .add-btn {
     width: 100%;
+    height: 58px;
     background: var(--accent-color);
-    color: var(--bg-color);
+    color: #ffffff;
     border: none;
-    border-radius: 16px;
-    height: 54px;
+    border-radius: 20px;
+    font-size: 1.1rem;
     font-weight: 700;
-    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 /* Celebration Text Removed */
@@ -312,7 +487,7 @@ h1 {
 }
 
 .overlay-content {
-    background: #1a1a1a;
+    background: var(--panel-bg);
     border: 1px solid var(--glass-border);
     border-radius: 32px;
     padding: 40px 30px;
@@ -361,4 +536,21 @@ h1 {
 .overlay-content p {
     color: var(--text-secondary);
     margin-bottom: 30px;
+}
+
+.secondary-btn {
+    width: 100%;
+    height: 58px;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.secondary-btn:active {
+    transform: scale(0.98);
 }
