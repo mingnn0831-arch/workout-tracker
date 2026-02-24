@@ -470,45 +470,58 @@ function updateColorPickerUI() {
 
 function setupEvents() {
     // Overlays
-    resetAllOverlayBtn.onclick = () => {
+    resetAllOverlayBtn.onpointerdown = (e) => {
+        e.preventDefault();
         workouts.forEach(w => w.currentSet = 0);
         globalOverlay.classList.remove('show');
         render();
     };
 
-    globalResetHeaderBtn.onclick = () => {
+    globalResetHeaderBtn.onpointerdown = (e) => {
+        e.preventDefault();
         if (workouts.length === 0) return;
         resetConfirmModal.classList.add('show');
     };
 
-    confirmResetBtn.onclick = () => {
+    confirmResetBtn.onpointerdown = (e) => {
+        e.preventDefault();
         workouts.forEach(w => w.currentSet = 0);
         resetConfirmModal.classList.remove('show');
         render();
     };
 
-    cancelResetBtn.onclick = () => {
+    cancelResetBtn.onpointerdown = (e) => {
+        e.preventDefault();
         resetConfirmModal.classList.remove('show');
     };
 
-    closeOverlayBtn.onclick = () => {
+    closeOverlayBtn.onpointerdown = (e) => {
+        e.preventDefault();
         globalOverlay.classList.remove('show');
     };
 
     // Event delegation for color dots
-    colorOptionsContainer.onclick = (e) => {
+    colorOptionsContainer.onpointerdown = (e) => {
         const dot = e.target.closest('.color-dot');
         if (dot) {
+            e.preventDefault();
             selectedColor = dot.dataset.color;
             updateColorPickerUI();
         }
     };
 
-    closePanelBtn.onclick = closePanel;
-    panelOverlay.onclick = closePanel;
+    closePanelBtn.onpointerdown = (e) => {
+        e.preventDefault();
+        closePanel();
+    };
+    panelOverlay.onpointerdown = (e) => {
+        e.preventDefault();
+        closePanel();
+    };
 
     // Theme Toggle
-    themeToggleBtn.onclick = () => {
+    themeToggleBtn.onpointerdown = (e) => {
+        e.preventDefault();
         document.body.classList.toggle('light-theme');
         const isLight = document.body.classList.contains('light-theme');
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
@@ -516,14 +529,16 @@ function setupEvents() {
     };
 
     // Stepper
-    minusBtn.onclick = () => {
+    minusBtn.onpointerdown = (e) => {
+        e.preventDefault();
         if (setsToAdd > 1) {
             setsToAdd--;
             setsValueDisplay.textContent = setsToAdd;
         }
     };
 
-    plusBtn.onclick = () => {
+    plusBtn.onpointerdown = (e) => {
+        e.preventDefault();
         if (setsToAdd < 20) {
             setsToAdd++;
             setsValueDisplay.textContent = setsToAdd;
@@ -531,7 +546,8 @@ function setupEvents() {
     };
 
     // Add Workout
-    addWorkoutBtn.onclick = () => {
+    addWorkoutBtn.onpointerdown = (e) => {
+        e.preventDefault();
         const name = workoutNameInput.value.trim();
         if (name) {
             if (editingId) {

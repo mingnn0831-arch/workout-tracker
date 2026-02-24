@@ -248,17 +248,25 @@ h1 {
     border-radius: 10px;
 }
 
-.action-icon-btn:hover {
+@media (hover: hover) {
+    .action-icon-btn:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .reset-icon:hover {
+        color: var(--accent-color);
+    }
+
+    .delete-icon:hover {
+        color: var(--danger-color);
+    }
+}
+
+.action-icon-btn:active {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.reset-icon:hover {
-    color: var(--accent-color);
-}
-
-.delete-icon:hover {
-    color: var(--danger-color);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.9);
 }
 
 /* Progress Dots */
@@ -399,6 +407,7 @@ h1 {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 4px;
+    touch-action: manipulation;
 }
 
 .stepper-btn {
@@ -412,6 +421,13 @@ h1 {
     color: var(--text-primary);
     font-size: 1.5rem;
     cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.stepper-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
 }
 
 .stepper-value {
@@ -458,6 +474,12 @@ h1 {
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
+    touch-action: manipulation;
+}
+
+.add-btn:active {
+    transform: scale(0.96);
+    filter: brightness(1.1);
 }
 
 /* Celebration Text Removed */
