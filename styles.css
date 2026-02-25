@@ -37,15 +37,20 @@ body.light-theme .color-dot.active {
 
 /* CSS for text-based reps input is already covered by #workout-reps-input sharing styles with #workout-name-input */
 
+html,
+body {
+    height: 100%;
+    overscroll-behavior: none;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-family);
     display: flex;
     justify-content: center;
-    min-height: 100vh;
     overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow-y: auto;
 }
 
 #app {
