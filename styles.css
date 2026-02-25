@@ -45,6 +45,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     overflow-x: hidden;
+    overscroll-behavior: none;
 }
 
 #app {
